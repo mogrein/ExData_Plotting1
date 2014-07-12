@@ -17,12 +17,14 @@ data_file <- unz(data_zip_name, data_file_name);
 ##I've enough ram. Sqldf doesn't work with unz and grep is not installed on all systems
 ##Don't want to unzip file
 data <- read.csv2(data_file, header = TRUE, na.strings = "?", dec=".",
-                      colClasses = c(rep("character", 2), rep("numeric", 7)));
+                  colClasses = c(rep("character", 2), rep("numeric", 7)));
 data <- data[(data$Date == "1/2/2007")|(data$Date == "2/2/2007"),]
-#data$Date <- as.Date(data$Date, format = "%d/%m/%Y")
-#data$Time <- strptime(data$Time, format="%H:%M:%S")
+data$TimeStamp <- strptime(paste(data$Date, data$Time), format="%d/%m/%Y %H:%M:%S")
 
-png(filename="plot1.png", width=480, height=480, bg = NA)
-with(data, hist(Global_active_power, col = "red", main = "Global Active Power",
-                xlab = "Global Active Power (kilowatts)"))
+#This line needed to get english names of weekdays on plot
+Sys.setlocale("LC_TIME", "C")
+
+png(filename="plot2.png", width=480, height=480, bg = NA)
+with(data, plot(TimeStamp, Global_active_power, type = "l", main = "",
+                ylab = "Global Active Power (kilowatts)", xlab=""))
 dev.off()
