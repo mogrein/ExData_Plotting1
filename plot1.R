@@ -14,8 +14,10 @@ if (!file.exists(data_zip_name)){
 }
 
 data_file <- unz(data_zip_name, data_file_name);
-##I've enough ram. Sqldf doesn't work with unz and grep is not installed on all systems
-##Don't want to unzip file
+## I've enough ram. Sqldf doesn't work with unz and grep is not installed on all systems
+## Don't want to unzip file
+## Might've used colClass = NULL for the columns, that i don't need,
+## but have no time for this
 data <- read.csv2(data_file, header = TRUE, na.strings = "?", dec=".",
                       colClasses = c(rep("character", 2), rep("numeric", 7)));
 data <- data[(data$Date == "1/2/2007")|(data$Date == "2/2/2007"),]

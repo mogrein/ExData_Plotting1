@@ -26,7 +26,26 @@ data$TimeStamp <- strptime(paste(data$Date, data$Time), format="%d/%m/%Y %H:%M:%
 #This line needed to get english names of weekdays on plot
 Sys.setlocale("LC_TIME", "C")
 
-png(filename="plot2.png", width=480, height=480, bg = NA)
-with(data, plot(TimeStamp, Global_active_power, type = "l", main = "",
-                ylab = "Global Active Power (kilowatts)", xlab=""))
+png(filename="plot4.png", width=480, height=480, bg = NA)
+par(mfrow = c(2,2))
+
+## 1st plot
+with(data, plot(TimeStamp, Global_active_power, type = "l", main = NA,
+                ylab = "Global Active Power", xlab=NA))
+
+## 2nd plot
+plot(data$TimeStamp, data$Voltage, type = "l", main = NA,
+     ylab = "Voltage", xlab="datetime")
+
+## 3rd plot
+with(data, plot(TimeStamp, data$Sub_metering_1 , type = "l", main = "",
+                ylab = "Energy sub metering", xlab="", col = "black"))
+lines(data$TimeStamp, data$Sub_metering_2, col = "red")
+lines(data$TimeStamp, data$Sub_metering_3, col = "blue")
+legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), lty=c(1,1,1), 
+       col=c("black","red","blue"), box.col = NA)
+
+## 4th plot
+with(data, plot(TimeStamp, Global_reactive_power, type = "l",
+     main = NA, xlab="datetime"))
 dev.off()

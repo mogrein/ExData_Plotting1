@@ -14,8 +14,10 @@ if (!file.exists(data_zip_name)){
 }
 
 data_file <- unz(data_zip_name, data_file_name);
-##I've enough ram. Sqldf doesn't work with unz and grep is not installed on all systems
-##Don't want to unzip file
+## I've enough ram. Sqldf doesn't work with unz and grep is not installed on all systems
+## Don't want to unzip file
+## Might've used colClass = NULL for the columns, that i don't need,
+## but have no time for this
 data <- read.csv2(data_file, header = TRUE, na.strings = "?", dec=".",
                   colClasses = c(rep("character", 2), rep("numeric", 7)));
 data <- data[(data$Date == "1/2/2007")|(data$Date == "2/2/2007"),]
@@ -30,5 +32,5 @@ with(data, plot(TimeStamp, data$Sub_metering_1 , type = "l", main = "",
 lines(data$TimeStamp, data$Sub_metering_2, col = "red")
 lines(data$TimeStamp, data$Sub_metering_3, col = "blue")
 legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), lty=c(1,1,1), 
-       col=c("black","red","blue")) # gives the legend lines 
+       col=c("black","red","blue"))
 dev.off()
